@@ -10,6 +10,7 @@ import Foundation
 @preconcurrency import UserNotifications
 import CorkShared
 import CorkNotifications
+import SwiftUI
 
 /// Class that holds the global state of the app, excluding services
 @MainActor
@@ -22,7 +23,15 @@ class AppState: ObservableObject
 
     // MARK: - Navigation
 
-    @Published var navigationSelection: UUID?
+    private var innerNavigationSelection: UUID?
+
+    var navigationSelection: Binding<UUID?> {
+        Binding<UUID?> {
+            self.innerNavigationSelection
+        } set: { newValue in
+            self.innerNavigationSelection = newValue
+        }
+    }
 
     // MARK: - Notifications
 
